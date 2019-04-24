@@ -7,7 +7,6 @@ package org.jetbrains.kotlin.idea.highlighter
 
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.openapi.editor.colors.TextAttributesKey
-import com.intellij.openapi.extensions.Extensions
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.descriptors.PropertyDescriptor
 import org.jetbrains.kotlin.descriptors.impl.SyntheticFieldDescriptor
@@ -42,7 +41,7 @@ internal class PropertiesHighlightingVisitor(holder: AnnotationHolder, bindingCo
         val resolvedCall = expression.getResolvedCall(bindingContext)
 
         val attributesKey = resolvedCall?.let { call ->
-            Extensions.getExtensions(HighlighterExtension.EP_NAME).firstNotNullResult { extension ->
+            HighlighterExtension.EP_NAME.extensionList.firstNotNullResult { extension ->
                 extension.highlightCall(expression, call)
             }
         } ?: attributeKeyByPropertyType(target)

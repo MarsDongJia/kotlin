@@ -15,7 +15,6 @@ import com.intellij.find.impl.FindManagerImpl
 import com.intellij.lang.properties.psi.PropertiesFile
 import com.intellij.lang.properties.psi.Property
 import com.intellij.openapi.editor.markup.TextAttributes
-import com.intellij.openapi.extensions.Extensions
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
@@ -165,7 +164,7 @@ abstract class AbstractFindUsagesTest : KotlinLightCodeInsightFixtureTestCase() 
                 return UsageType.COMMENT_USAGE
             }
 
-            val providers = Extensions.getExtensions(UsageTypeProvider.EP_NAME)
+            val providers = UsageTypeProvider.EP_NAME.extensionList
             return providers
                            .mapNotNull { it.getUsageType(element) }
                            .firstOrNull()

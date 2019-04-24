@@ -13,7 +13,6 @@ import com.intellij.codeInsight.editorActions.moveUpDown.StatementUpDownMover
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.runWriteAction
 import com.intellij.openapi.editor.actionSystem.EditorAction
-import com.intellij.openapi.extensions.Extensions
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.testFramework.LightCodeInsightTestCase
 import com.intellij.testFramework.LightPlatformCodeInsightTestCase
@@ -38,7 +37,7 @@ abstract class AbstractMoveStatementTest : AbstractCodeMoverTest() {
 
     private fun doTest(path: String, defaultMoverClass: Class<out StatementUpDownMover>) {
         doTest(path) { isApplicableExpected, direction ->
-            val movers = Extensions.getExtensions(StatementUpDownMover.STATEMENT_UP_DOWN_MOVER_EP)
+            val movers = StatementUpDownMover.STATEMENT_UP_DOWN_MOVER_EP.extensionList
             val info = StatementUpDownMover.MoveInfo()
             val actualMover = movers.firstOrNull {
                 it.checkAvailable(LightPlatformCodeInsightTestCase.getEditor(), LightPlatformCodeInsightTestCase.getFile(), info, direction == "down")

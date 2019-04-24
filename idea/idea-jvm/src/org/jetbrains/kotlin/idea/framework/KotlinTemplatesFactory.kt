@@ -19,7 +19,6 @@ package org.jetbrains.kotlin.idea.framework
 import com.intellij.ide.util.projectWizard.ModuleBuilder
 import com.intellij.ide.util.projectWizard.WizardContext
 import com.intellij.openapi.extensions.ExtensionPointName
-import com.intellij.openapi.extensions.Extensions
 import com.intellij.platform.ProjectTemplate
 import com.intellij.platform.ProjectTemplatesFactory
 import com.intellij.platform.templates.BuilderBasedTemplate
@@ -49,7 +48,7 @@ class KotlinTemplatesFactory : ProjectTemplatesFactory() {
                                                          KotlinIcons.JS)
                 )
         )
-        result.addAll(Extensions.getExtensions(EP_NAME).map { BuilderBasedTemplate(it) })
+        result.addAll(EP_NAME.extensionList.map { BuilderBasedTemplate(it) })
         return result.toTypedArray()
     }
 }

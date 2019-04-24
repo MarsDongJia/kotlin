@@ -21,7 +21,6 @@ import com.google.common.collect.Multimap
 import com.intellij.codeInsight.intention.IntentionAction
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.extensions.ExtensionPointName
-import com.intellij.openapi.extensions.Extensions
 import org.jetbrains.kotlin.diagnostics.DiagnosticFactory
 
 class QuickFixes {
@@ -29,7 +28,7 @@ class QuickFixes {
     private val actions: Multimap<DiagnosticFactory<*>, IntentionAction> = HashMultimap.create<DiagnosticFactory<*>, IntentionAction>()
 
     init {
-        Extensions.getExtensions(QuickFixContributor.EP_NAME).forEach { it.registerQuickFixes(this) }
+        QuickFixContributor.EP_NAME.extensionList.forEach { it.registerQuickFixes(this) }
     }
 
     fun register(diagnosticFactory: DiagnosticFactory<*>, vararg factory: KotlinIntentionActionsFactory) {

@@ -8,7 +8,6 @@ package org.jetbrains.kotlin.idea.configuration
 import com.intellij.codeInsight.CodeInsightUtilCore
 import com.intellij.codeInsight.daemon.impl.quickfix.OrderEntryFix
 import com.intellij.ide.actions.OpenFileAction
-import com.intellij.openapi.extensions.Extensions
 import com.intellij.openapi.externalSystem.util.ExternalSystemApiUtil
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.module.Module
@@ -75,7 +74,7 @@ abstract class KotlinWithGradleConfigurator : KotlinProjectConfigurator {
     }
 
     private fun PsiFile.isConfiguredByAnyGradleConfigurator(): Boolean {
-        return Extensions.getExtensions(KotlinProjectConfigurator.EP_NAME)
+        return KotlinProjectConfigurator.EP_NAME.extensionList
             .filterIsInstance<KotlinWithGradleConfigurator>()
             .any { it.isFileConfigured(this) }
     }

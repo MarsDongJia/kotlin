@@ -16,7 +16,6 @@
 
 package org.jetbrains.kotlin.idea.inspections.gradle
 
-import com.intellij.openapi.extensions.Extensions
 import com.intellij.openapi.externalSystem.model.DataNode
 import com.intellij.openapi.externalSystem.model.ProjectKeys
 import com.intellij.openapi.externalSystem.model.project.ModuleData
@@ -52,7 +51,7 @@ fun DataNode<*>.getResolvedVersionByModuleData(groupId: String, libraryIds: List
 }
 
 fun getDependencyModules(moduleData: DataNode<ModuleData>, gradleIdeaProject: IdeaProject): Collection<DataNode<ModuleData>> {
-    for (modelFacade in Extensions.getExtensions(KotlinGradleModelFacade.EP_NAME)) {
+    for (modelFacade in KotlinGradleModelFacade.EP_NAME.extensionList) {
         val dependencies = modelFacade.getDependencyModules(moduleData, gradleIdeaProject)
         if (dependencies.isNotEmpty()) {
             return dependencies

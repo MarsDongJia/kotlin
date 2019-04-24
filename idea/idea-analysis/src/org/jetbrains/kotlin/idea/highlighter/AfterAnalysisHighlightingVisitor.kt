@@ -18,7 +18,6 @@ package org.jetbrains.kotlin.idea.highlighter
 
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.openapi.editor.colors.TextAttributesKey
-import com.intellij.openapi.extensions.Extensions
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.descriptors.CallableDescriptor
 import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
@@ -32,7 +31,7 @@ abstract class AfterAnalysisHighlightingVisitor protected constructor(
 ) : HighlightingVisitor(holder) {
 
     protected fun attributeKeyForDeclarationFromExtensions(element: PsiElement, descriptor: DeclarationDescriptor) =
-        Extensions.getExtensions(HighlighterExtension.EP_NAME).firstNotNullResult { extension ->
+        HighlighterExtension.EP_NAME.extensionList.firstNotNullResult { extension ->
             extension.highlightDeclaration(element, descriptor)
         }
 
@@ -40,7 +39,7 @@ abstract class AfterAnalysisHighlightingVisitor protected constructor(
         expression: KtSimpleNameExpression,
         resolvedCall: ResolvedCall<out CallableDescriptor>
     ): TextAttributesKey? {
-        return Extensions.getExtensions(HighlighterExtension.EP_NAME).firstNotNullResult { extension ->
+        return HighlighterExtension.EP_NAME.extensionList.firstNotNullResult { extension ->
             extension.highlightCall(expression, resolvedCall)
         }
     }

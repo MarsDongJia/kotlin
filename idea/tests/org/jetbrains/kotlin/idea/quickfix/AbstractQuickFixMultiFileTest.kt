@@ -14,7 +14,6 @@ import com.intellij.codeInspection.LocalInspectionEP
 import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.editor.Editor
-import com.intellij.openapi.extensions.Extensions
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.fileTypes.PlainTextFileType
 import com.intellij.openapi.util.io.FileUtil
@@ -65,8 +64,8 @@ abstract class AbstractQuickFixMultiFileTest : KotlinLightCodeInsightFixtureTest
 
     private fun enableInspectionTools(klass: Class<*>) {
         val eps = ContainerUtil.newArrayList<InspectionEP>()
-        ContainerUtil.addAll<InspectionEP, LocalInspectionEP, List<InspectionEP>>(eps, *Extensions.getExtensions(LocalInspectionEP.LOCAL_INSPECTION))
-        ContainerUtil.addAll<InspectionEP, InspectionEP, List<InspectionEP>>(eps, *Extensions.getExtensions(InspectionEP.GLOBAL_INSPECTION))
+        ContainerUtil.addAll<InspectionEP, LocalInspectionEP, List<InspectionEP>>(eps, *LocalInspectionEP.LOCAL_INSPECTION.extensionList)
+        ContainerUtil.addAll<InspectionEP, InspectionEP, List<InspectionEP>>(eps, *InspectionEP.GLOBAL_INSPECTION.extensionList)
 
         val tool = eps.firstOrNull { it.implementationClass == klass.name }?.instantiateTool()
                    ?: error("Could not find inspection tool for class: $klass")

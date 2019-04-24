@@ -9,7 +9,6 @@ import com.intellij.codeInsight.daemon.HighlightDisplayKey
 import com.intellij.codeInspection.*
 import com.intellij.ide.actions.QualifiedNameProvider
 import com.intellij.lang.java.JavaLanguage
-import com.intellij.openapi.extensions.Extensions
 import com.intellij.openapi.project.DumbService
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
@@ -190,7 +189,7 @@ internal fun findProblem(
 internal fun getQualifiedNameFromProviders(element: PsiElement): String? {
     DumbService.getInstance(element.project).isAlternativeResolveEnabled = true
     try {
-        for (provider in Extensions.getExtensions(QualifiedNameProvider.EP_NAME)) {
+        for (provider in QualifiedNameProvider.EP_NAME.extensionList) {
             val result = provider.getQualifiedName(element)
             if (result != null) return result
         }

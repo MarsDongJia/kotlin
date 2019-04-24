@@ -7,7 +7,6 @@ package org.jetbrains.kotlin.idea.configuration
 
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.extensions.Extensions
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.DumbService
 import com.intellij.openapi.project.Project
@@ -195,7 +194,7 @@ fun getConfiguratorByName(name: String): KotlinProjectConfigurator? {
     return allConfigurators().firstOrNull { it.name == name }
 }
 
-fun allConfigurators() = Extensions.getExtensions(KotlinProjectConfigurator.EP_NAME)
+fun allConfigurators(): List<KotlinProjectConfigurator> = KotlinProjectConfigurator.EP_NAME.extensionList
 
 fun getCanBeConfiguredModules(project: Project, configurator: KotlinProjectConfigurator): List<Module> {
     return ModuleSourceRootMap(project).groupByBaseModules(project.allModules())
@@ -205,7 +204,7 @@ fun getCanBeConfiguredModules(project: Project, configurator: KotlinProjectConfi
 
 private fun KotlinProjectConfigurator.canConfigure(moduleSourceRootGroup: ModuleSourceRootGroup) =
     getStatus(moduleSourceRootGroup) == ConfigureKotlinStatus.CAN_BE_CONFIGURED &&
-            (allConfigurators().toList() - this).none { it.getStatus(moduleSourceRootGroup) == ConfigureKotlinStatus.CONFIGURED }
+            (allConfigurators() - this).none { it.getStatus(moduleSourceRootGroup) == ConfigureKotlinStatus.CONFIGURED }
 
 /**
  * Returns a list of modules which contain sources in Kotlin and for which it's possible to run the given configurator.

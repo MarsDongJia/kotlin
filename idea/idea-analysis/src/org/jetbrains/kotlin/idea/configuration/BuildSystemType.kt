@@ -6,7 +6,6 @@
 package org.jetbrains.kotlin.idea.configuration
 
 import com.intellij.openapi.extensions.ExtensionPointName
-import com.intellij.openapi.extensions.Extensions
 import com.intellij.openapi.module.Module
 
 abstract class BuildSystemType {
@@ -22,7 +21,7 @@ interface BuildSystemTypeDetector {
 }
 
 fun Module.getBuildSystemType(): BuildSystemType {
-    for (extension in Extensions.getExtensions(BuildSystemTypeDetector.EP_NAME)) {
+    for (extension in BuildSystemTypeDetector.EP_NAME.extensionList) {
         val result = extension.detectBuildSystemType(this)
         if (result != null) {
             return result

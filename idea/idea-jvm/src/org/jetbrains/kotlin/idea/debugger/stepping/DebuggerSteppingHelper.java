@@ -24,7 +24,6 @@ import com.intellij.debugger.jdi.StackFrameProxyImpl;
 import com.intellij.debugger.jdi.ThreadReferenceProxyImpl;
 import com.intellij.debugger.settings.DebuggerSettings;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.extensions.Extensions;
 import com.intellij.ui.classFilter.ClassFilter;
 import com.intellij.ui.classFilter.DebuggerClassFilterProvider;
 import com.sun.jdi.Location;
@@ -179,7 +178,7 @@ public class DebuggerSteppingHelper {
                 }
             }
         }
-        for (DebuggerClassFilterProvider provider : Extensions.getExtensions(DebuggerClassFilterProvider.EP_NAME)) {
+        for (DebuggerClassFilterProvider provider : DebuggerClassFilterProvider.EP_NAME.getExtensionList()) {
             for (ClassFilter filter : provider.getFilters()) {
                 if (filter.isEnabled()) {
                     activeFilters.add(filter);

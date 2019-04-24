@@ -11,7 +11,6 @@ import com.intellij.codeInspection.LocalInspectionEP
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ex.InspectionToolRegistrar
 import com.intellij.codeInspection.ex.InspectionToolWrapper
-import com.intellij.openapi.extensions.Extensions
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.testFramework.LightPlatformTestCase
 import com.intellij.testFramework.UsefulTestCase
@@ -67,7 +66,7 @@ class InspectionDescriptionTest : LightPlatformTestCase() {
     fun testExtensionPoints() {
         val shortNames = THashMap<String, LocalInspectionEP>()
 
-        val inspectionEPs = Extensions.getExtensions(LocalInspectionEP.LOCAL_INSPECTION)
+        val inspectionEPs = LocalInspectionEP.LOCAL_INSPECTION.extensionList
         val tools = inspectionEPs.size
         val errors = StringBuilder()
         for (ep in inspectionEPs) {

@@ -13,7 +13,6 @@ import com.intellij.lang.properties.psi.Property
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.editor.EditorFactory
-import com.intellij.openapi.extensions.Extensions
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.fileEditor.impl.text.TextEditorPsiDataProvider
 import com.intellij.openapi.module.Module
@@ -420,7 +419,7 @@ fun runRenameProcessor(
         with(AutomaticOverloadsRenamer) { substitution.elementFilter = { false } }
     }
     if (processor is RenameProcessor) {
-        Extensions.getExtensions(AutomaticRenamerFactory.EP_NAME).forEach { processor.addRenamerFactory(it) }
+        AutomaticRenamerFactory.EP_NAME.extensionList.forEach { processor.addRenamerFactory(it) }
     }
     processor.run()
 }
